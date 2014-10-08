@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><libraryInfos>
+<libraryInfo home="S:\ibmjava664bit" version="1.6.0">
+<bootpath>
+<entry path="S:\ibmjava664bit\jre\bin\default\jclSC160\vm.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\annotation.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\beans.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\java.util.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\jndi.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\logging.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\security.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\sql.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmorb.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmorbapi.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmcfw.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\rt.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\charsets.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\resources.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmpkcs.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmcertpathfw.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmjgssfw.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmjssefw.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmsaslfw.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmjcefw.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmjgssprovider.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmjsseprovider2.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmcertpathprovider.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\ibmxmlcrypto.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\management-agent.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\xml.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\jlm.jar"/>
+<entry path="S:\ibmjava664bit\jre\lib\javascript.jar"/>
+</bootpath>
+<extensionDirs>
+<entry path="S:\ibmjava664bit\jre\lib\ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="S:\ibmjava664bit\jre\lib\endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>
