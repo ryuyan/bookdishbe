@@ -1,78 +1,70 @@
 var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+var mongoose = require('mongoose');
+var session = require('express-session');
 var bodyParser = require('body-parser');
-var oauthserver = require('node-oauth2-server');
+var passport = require('passport');
+var userController = require('./controllers/user');
+var dishController = require('./controllers/dish');
+var authController = require('./controllers/auth');
+var oauth2Controller = require('./controllers/oauth2');
+var clientController = require('./controllers/client');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var dish = require('./dish');
 
+var ejs = require('ejs');
+
+
+//Connect to the bookdish MongoDB
+mongoose.connect('mongodb://localhost:27017/bookdish')
+// Create our Express application
 var app = express();
 
-app.oauth = oauthserver({
-	  model: {}, // See below for specification
-	  grants: ['auth_code', 'password'],
-	  debug: true
-	});
+//Set view engine to ejs
+app.set('view engine', 'ejs');
+//Use the passport package in our application
+app.use(passport.initialize());
 
-app.all('/oauth/token', app.oauth.grant());
-app.get('/', app.oauth.authorise(), function (req, res) {
-	  res.send('Secret area');
-	});
-
-app.use(app.oauth.errorHandler());
-	
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
+//Use express session support since OAuth2orize requires it
+app.use(session({ 
+  secret: 'Super Secret Session Key',
+  saveUninitialized: true,
+  resave: true
+}));
 
-app.use('/', routes);
-app.use('/users', users);
-app.get('/dish/:id', dish.getDish);
-app.get('/dish', app.oauth.authorise(), dish.getAllDishes);
-app.post('/dish', dish.addDish);
+// Create our Express router
+var router = express.Router();
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+router.route('/auth').get(function(req, res, next) {
+	  res.sendfile('views/login.html');
+	});
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
+//Create endpoint handlers for /users
+router.route('/users')
+  .post(userController.postUsers)
+  .get(userController.getUsers);
 
 
+router.get('/dish/:id', dishController.getDish);
+
+//Create endpoint handlers for /dish
+router.route('/dish')
+  .post(authController.isAuthenticated, dishController.postDish)
+  .get(authController.isAuthenticated, dishController.getDishes);
+
+//Create endpoint handlers for /clients
+router.route('/client')
+  .post(authController.isAuthenticated, clientController.postClients)
+  .get(authController.isAuthenticated, clientController.getClients);
+
+//Create endpoint handlers for oauth2 authorize
+router.route('/oauth2/authorize')
+  .get(authController.isAuthenticated, oauth2Controller.authorization)
+  .post(authController.isAuthenticated, oauth2Controller.decision);
+
+//Create endpoint handlers for oauth2 token
+router.route('/oauth2/token')
+  .post(authController.isClientAuthenticated, oauth2Controller.token);
+//Register all our routes with /api
+app.use('/api', router);
 module.exports = app;
